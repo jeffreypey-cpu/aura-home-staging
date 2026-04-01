@@ -7,7 +7,11 @@
       "Bash(/home/ubuntu/aura-home-staging/.venv/bin/python -c \"from agents.intake_parser import parse_intake_message; print\\('intake_parser OK'\\)\")",
       "Bash(/home/ubuntu/aura-home-staging/.venv/bin/python -c \"from agents.property_enricher import enrich_property; print\\('property_enricher OK'\\)\")",
       "Bash(/home/ubuntu/aura-home-staging/.venv/bin/python -c \"from agents.contract_drafter import draft_contract_summary; print\\('contract_drafter OK'\\)\")",
-      "Bash(/home/ubuntu/aura-home-staging/.venv/bin/python -c \"from agents.followup_drafter import draft_completion_emails; print\\('followup_drafter OK'\\)\")"
+      "Bash(/home/ubuntu/aura-home-staging/.venv/bin/python -c \"from agents.followup_drafter import draft_completion_emails; print\\('followup_drafter OK'\\)\")",
+      "Bash(npx create-next-app@14:*)",
+      "Bash(git remote:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)"
     ]
   }
 }
