@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0f1f3d;
+  --navy-light: #1a3260;
+  --gold: #c9a84c;
+  --gold-light: #e2c77a;
+}
+
+body {
+  background-color: #f8f9fb;
+  color: #1a1a2e;
+}
