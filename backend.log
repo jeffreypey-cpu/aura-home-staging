@@ -63,3 +63,486 @@ INFO:     127.0.0.1:56694 - "GET /api/notifications HTTP/1.1" 307 Temporary Redi
 INFO:     127.0.0.1:56706 - "GET /api/notifications/ HTTP/1.1" 200 OK
 INFO:     127.0.0.1:52528 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
 INFO:     127.0.0.1:52536 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33394 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:33404 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35714 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35718 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57312 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57320 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57322 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57330 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57336 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57312 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57320 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57312 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57320 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57322 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57312 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57320 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57330 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57336 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57312 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51652 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51656 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51668 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51684 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51688 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51652 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51656 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51668 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35380 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35396 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35402 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35404 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35406 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35380 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35396 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35402 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/schedule/week/2026-03-31 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33228 - "GET /api/employees HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:33212 - "GET /api/employees/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37458 - "GET /api/employees HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37468 - "GET /api/employees/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37458 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37468 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37458 - "GET /api/vendors HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37468 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37458 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37482 - "GET /api/vendors/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37458 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37468 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37458 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37468 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37458 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37468 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37482 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37484 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37500 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37458 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37468 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37512 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47340 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47346 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47358 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47374 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51326 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51330 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55148 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55162 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55148 - "GET /api/inventory/project/fd4345ff-d727-4737-954c-787ede2d0ee3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55148 - "POST /api/inventory/assign HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55148 - "GET /api/inventory/project/fd4345ff-d727-4737-954c-787ede2d0ee3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41404 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41414 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41416 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41422 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41438 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41446 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41416 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41422 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41438 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41456 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41416 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41422 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41416 - "GET /api/vendors HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41422 - "GET /api/vendors/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41416 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41422 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33694 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:33708 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51700 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51712 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51716 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51724 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51728 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51700 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51712 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51716 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51700 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51712 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51700 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51712 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51716 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51724 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51728 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51700 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51712 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51716 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52154 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52164 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52178 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52190 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52196 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52154 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52164 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52178 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47340 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47356 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47340 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47356 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47370 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47376 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47378 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47340 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47356 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47370 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41980 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41982 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41980 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41986 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41996 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:42010 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41980 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41982 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42014 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42024 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42038 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:42046 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:42014 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:42024 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42050 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42054 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59992 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60000 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60012 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60014 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60026 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59992 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60000 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60012 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53396 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53406 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53412 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53418 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53430 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53396 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53406 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53412 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53396 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53406 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38396 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38400 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38402 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38410 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38416 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38428 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38432 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38402 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38410 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38416 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38084 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38086 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38084 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38086 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50180 - "PUT /api/inventory/c8951f15-b8d3-4371-a839-f9b3ed3e5007 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50180 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50182 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36184 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:36188 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34970 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:34972 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34980 - "POST /api/contracts/generate/63087068-4e2e-497d-8ae3-64b2d01a3125 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34982 - "POST /api/contracts/generate/63087068-4e2e-497d-8ae3-64b2d01a3125 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47818 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47832 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47840 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47852 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:34980 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:34982 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47818 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47832 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34980 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:34982 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34980 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:34982 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33472 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:33484 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43690 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:43698 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57180 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57184 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50042 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50046 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39750 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:39760 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55836 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55842 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34024 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:34026 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56726 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56738 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50964 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50970 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58404 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58420 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52918 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52926 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38754 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38768 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41560 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41562 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38002 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38016 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59884 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59890 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49828 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49832 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49828 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49832 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49844 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49848 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49856 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49828 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49832 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49844 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49828 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49832 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49866 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49880 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49866 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49880 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49866 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49880 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49866 - "GET /api/vendors HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58916 - "GET /api/vendors/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49866 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49880 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58916 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58920 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58928 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49866 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49880 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58916 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49866 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49880 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48518 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48530 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:48540 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48550 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:48558 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:48518 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48530 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48540 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50306 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50312 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42550 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:42554 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58892 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58900 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38418 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38430 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35556 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35560 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53350 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53360 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37946 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:37950 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49050 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49058 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53406 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53412 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42086 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:42092 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38294 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:38302 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51044 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51056 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41532 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:41536 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55896 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55902 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35254 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35258 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58780 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58792 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53800 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53816 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34512 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:34524 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33144 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:33152 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35792 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35794 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [87114]
+INFO:     Started server process [92703]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52998 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53014 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50288 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50304 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45858 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:45864 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45858 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:45864 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45858 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:45864 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45858 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:45864 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45858 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45864 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58854 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58870 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58886 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:45858 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45864 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58854 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58894 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58908 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58894 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58922 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58934 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58908 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58946 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58948 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58894 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58908 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47380 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47396 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47380 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47410 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47396 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47380 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47414 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47396 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58430 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58432 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58430 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58444 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58458 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58430 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58432 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58462 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36466 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36474 - "GET /api/inventory/labels/test-id HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/ubuntu/aura-home-staging/backend/routers/inventory.py", line 251, in get_project_labels
+    proj_res = supabase.table("projects").select("property_address, client_name").eq("id", project_id).execute()
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/postgrest/_sync/request_builder.py", line 53, in execute
+    raise APIError(dict(json_obj))
+postgrest.exceptions.APIError: {'message': 'invalid input syntax for type uuid: "test-id"', 'code': '22P02', 'hint': None, 'details': None}
+INFO:     127.0.0.1:36486 - "GET /api/inventory/labels/test-id HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/ubuntu/aura-home-staging/backend/routers/inventory.py", line 251, in get_project_labels
+    proj_res = supabase.table("projects").select("property_address, client_name").eq("id", project_id).execute()
+  File "/home/ubuntu/aura-home-staging/.venv/lib/python3.10/site-packages/postgrest/_sync/request_builder.py", line 53, in execute
+    raise APIError(dict(json_obj))
+postgrest.exceptions.APIError: {'message': 'invalid input syntax for type uuid: "test-id"', 'code': '22P02', 'hint': None, 'details': None}
+INFO:     127.0.0.1:47948 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47952 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47958 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47970 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47976 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47948 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47952 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47986 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47948 - "GET /api/inventory/project/60fe9ae6-2079-4279-88cd-7f69bee178f9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47952 - "GET /api/inventory/project/dbb48f47-2f43-4a82-91b3-4f47967f500d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47958 - "GET /api/inventory/project/778879f7-86ca-4824-b5d9-a0c2108c0444 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47970 - "GET /api/inventory/project/fd4345ff-d727-4737-954c-787ede2d0ee3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47976 - "GET /api/inventory/project/3d162453-a441-46af-98ee-b8e76467a016 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47986 - "GET /api/inventory/project/541a1218-ba3a-4fab-9b4b-2c172e1ebb32 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47948 - "GET /api/inventory/project/63087068-4e2e-497d-8ae3-64b2d01a3125 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47948 - "GET /api/inventory HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47952 - "GET /api/inventory/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47988 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:48000 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47964 - "GET /api/extensions/approaching HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47964 - "GET /api/intake HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47978 - "GET /api/intake/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47964 - "GET /api/files/folders HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47964 - "GET /api/approvals HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47978 - "GET /api/approvals/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47964 - "GET /api/notifications HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:47978 - "GET /api/notifications/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47964 - "GET /api/inventory/project/dbb48f47-2f43-4a82-91b3-4f47967f500d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47978 - "GET /api/inventory/project/60fe9ae6-2079-4279-88cd-7f69bee178f9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47964 - "GET /api/inventory/project/63087068-4e2e-497d-8ae3-64b2d01a3125 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47982 - "GET /api/inventory/project/fd4345ff-d727-4737-954c-787ede2d0ee3 HTTP/1.1" 200 OK

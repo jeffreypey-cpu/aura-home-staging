@@ -36,7 +36,11 @@
       "Bash(curl:*)",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(list\\(d[0].keys\\(\\)\\) if d else 'empty'\\)\")",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('OK - employees:', len\\(d.get\\('schedule',[]\\)\\), 'days'\\)\")",
-      "Bash(python3 -c ':*)"
+      "Bash(python3 -c ':*)",
+      "Bash(sudo fallocate:*)",
+      "Bash(sudo chmod:*)",
+      "Bash(sudo mkswap:*)",
+      "Bash(sudo swapon:*)"
     ]
   }
 }

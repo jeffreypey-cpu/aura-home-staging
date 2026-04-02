@@ -158,6 +158,14 @@ function TimelineRow({
   const [extending, setExtending] = useState(false);
   const [newDate, setNewDate] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [invCount, setInvCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/inventory/project/${project.id}`)
+      .then(r => r.json())
+      .then(data => setInvCount(Array.isArray(data) ? data.length : 0))
+      .catch(() => setInvCount(0));
+  }, [project.id]);
 
   const endingSoon =
     project.days_remaining != null && project.days_remaining <= 7;
@@ -229,6 +237,13 @@ function TimelineRow({
           style={{ border: '1px solid #555', color: '#999', backgroundColor: 'transparent' }}
         >
           Complete
+        </button>
+        <button
+          onClick={() => window.open(`/api/inventory/labels/${project.id}`, '_blank')}
+          className="flex-1 text-xs py-2.5 rounded font-semibold tracking-wider uppercase hover:opacity-80 transition-opacity min-h-[44px]"
+          style={{ border: '1px solid #c9a84c', color: '#c9a84c', backgroundColor: 'transparent' }}
+        >
+          {invCount != null && invCount > 0 ? `Print Labels (${invCount})` : 'Print Labels'}
         </button>
       </div>
 

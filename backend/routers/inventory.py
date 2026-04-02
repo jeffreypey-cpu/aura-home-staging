@@ -1,11 +1,12 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timezone
 from services.supabase_client import supabase
 from agents.inventory_agent import process_inventory_item, generate_sku
-from services.qr_service import generate_qr_code, get_qr_base64
+from services.qr_service import generate_qr_code, get_qr_base64, generate_project_label_sheet
+from services.color_service import get_project_color
 import logging
 import os
 from pathlib import Path
@@ -57,10 +58,8 @@ class AssignInventory(BaseModel):
 
 def _attach_qr(item: dict) -> dict:
     sku = item.get("sku")
-    if sku:
-        item["qr_base64"] = get_qr_base64(sku)
-    else:
-        item["qr_base64"] = None
+    item["qr_base64"] = get_qr_base64(sku) if sku else None
+    item["image_url"] = f"/api/inventory/image/{item['id']}" if item.get("image_path") else None
     return item
 
 
@@ -242,6 +241,32 @@ async def return_inventory(assignment_id: str):
         }).eq("id", a["inventory_id"]).execute()
 
     return {"status": "returned", "assignment_id": assignment_id}
+
+
+# ── GET /labels/{project_id} ─────────────────────────────────────────────────
+
+@router.get("/labels/{project_id}", response_class=HTMLResponse)
+async def get_project_labels(project_id: str):
+    # Fetch project details
+    proj_res = supabase.table("projects").select("property_address, client_name").eq("id", project_id).execute()
+    project_address = ""
+    if proj_res.data:
+        p = proj_res.data[0]
+        project_address = p.get("property_address") or p.get("client_name") or ""
+
+    # Fetch assigned inventory
+    inv_res = (
+        supabase.table("project_inventory")
+        .select("*, inventory(*)")
+        .eq("project_id", project_id)
+        .is_("returned_at", "null")
+        .execute()
+    )
+    items = inv_res.data or []
+
+    color = get_project_color(project_id)
+    html = generate_project_label_sheet(project_id, project_address, items, color)
+    return HTMLResponse(content=html)
 
 
 # ── GET /image/{item_id} ──────────────────────────────────────────────────────

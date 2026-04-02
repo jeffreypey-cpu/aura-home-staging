@@ -5,6 +5,110 @@ import StatusBadge from '@/components/StatusBadge';
 import AuthGuard from '@/components/AuthGuard';
 import ClientFilesPanel from '@/components/ClientFilesPanel';
 
+const PROJECT_COLORS = [
+  { name: 'Red',    hex: '#E53E3E' },
+  { name: 'Blue',   hex: '#3182CE' },
+  { name: 'Green',  hex: '#38A169' },
+  { name: 'Purple', hex: '#805AD5' },
+  { name: 'Orange', hex: '#DD6B20' },
+  { name: 'Pink',   hex: '#D53F8C' },
+  { name: 'Teal',   hex: '#319795' },
+  { name: 'Yellow', hex: '#D69E2E' },
+];
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getProjectColor(projectId: string) {
+  if (!projectId) return PROJECT_COLORS[0];
+  try {
+    return PROJECT_COLORS[parseInt(projectId.slice(-3), 16) % PROJECT_COLORS.length];
+  } catch {
+    let sum = 0;
+    for (const c of projectId) sum += c.charCodeAt(0);
+    return PROJECT_COLORS[sum % PROJECT_COLORS.length];
+  }
+}
+
+interface InvAssignment {
+  id: string;
+  quantity_used: number;
+  inventory: {
+    id: string;
+    item_name: string;
+    sku: string;
+    category: string;
+    image_path?: string | null;
+  };
+}
+
+function InventoryPanel({ projectId }: { projectId: string }) {
+  const [items, setItems] = useState<InvAssignment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`/api/inventory/project/${projectId}`)
+      .then(r => r.json())
+      .then(data => setItems(Array.isArray(data) ? data : []))
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
+  }, [projectId]);
+
+  if (loading) return (
+    <div className="mt-4 pt-4" style={{ borderTop: '1px solid #2a2a2a' }}>
+      <p className="text-xs" style={{ color: '#555' }}>Loading inventory…</p>
+    </div>
+  );
+
+  return (
+    <div className="mt-4 pt-4" style={{ borderTop: '1px solid #2a2a2a' }}>
+      <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#888' }}>Inventory</p>
+      {items.length === 0 ? (
+        <p className="text-xs mb-3" style={{ color: '#555' }}>No inventory assigned to this project yet</p>
+      ) : (
+        <div className="space-y-2 mb-3">
+          {items.map(item => {
+            const inv = item.inventory;
+            const imgUrl = inv.image_path ? `/api/inventory/image/${inv.id}` : null;
+            return (
+              <div key={item.id} className="flex items-center gap-3">
+                {imgUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={imgUrl} alt={inv.item_name} style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover', border: '1px solid #2a2a2a', flexShrink: 0 }} />
+                ) : (
+                  <div style={{ width: 40, height: 40, borderRadius: 6, backgroundColor: '#1e1e1e', border: '1px solid #2a2a2a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>📦</div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-semibold text-white truncate">{inv.item_name}</p>
+                  <p className="text-xs font-mono" style={{ color: '#888' }}>{inv.sku}</p>
+                </div>
+                <span className="text-xs px-2 py-0.5 rounded flex-shrink-0" style={{ backgroundColor: '#1e1e1e', border: '1px solid #2a2a2a', color: '#888' }}>
+                  {inv.category}
+                </span>
+                <span className="text-xs flex-shrink-0" style={{ color: '#555' }}>×{item.quantity_used}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <div className="flex flex-wrap gap-2 mt-3">
+        <a
+          href="/inventory"
+          className="px-3 py-1.5 text-xs rounded font-semibold tracking-wider uppercase hover:opacity-80 transition-opacity"
+          style={{ border: '1px solid #c9a84c', color: '#c9a84c', backgroundColor: 'transparent' }}
+        >
+          Assign Inventory
+        </a>
+        <button
+          onClick={() => window.open(`/api/inventory/labels/${projectId}`, '_blank')}
+          className="px-3 py-1.5 text-xs rounded font-semibold tracking-wider uppercase hover:opacity-80 transition-opacity"
+          style={{ backgroundColor: '#c9a84c', color: '#000' }}
+        >
+          Print All Labels
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function formatPrice(n: number) {
   return '$' + n.toLocaleString();
 }
@@ -142,6 +246,7 @@ export default function ProjectsPage() {
                   {openFilesId === p.id && (
                     <div className="mt-2">
                       <ClientFilesPanel projectId={p.id} clientName={p.client_name} />
+                      <InventoryPanel projectId={p.id} />
                     </div>
                   )}
                 </div>
@@ -219,6 +324,7 @@ export default function ProjectsPage() {
                       <tr key={`${p.id}-files`} style={{ borderBottom: '1px solid #2a2a2a' }}>
                         <td colSpan={8} className="px-4 pb-4 pt-0" style={{ backgroundColor: '#1a1a1a' }}>
                           <ClientFilesPanel projectId={p.id} clientName={p.client_name} />
+                          <InventoryPanel projectId={p.id} />
                         </td>
                       </tr>
                     )}

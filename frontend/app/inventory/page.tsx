@@ -13,9 +13,30 @@ const CATEGORIES = ['Sofa','Chair','Table','Bed','Dresser','Lamp','Art','Rug','M
 const CONDITIONS = ['excellent','good','fair'];
 const CATEGORY_FILTERS = ['All', 'Sofa', 'Chair', 'Table', 'Lamp', 'Art', 'Rug', 'Decor', 'Other'];
 
+const PROJECT_COLORS = [
+  { hex: '#E53E3E', name: 'Red' },
+  { hex: '#3182CE', name: 'Blue' },
+  { hex: '#38A169', name: 'Green' },
+  { hex: '#805AD5', name: 'Purple' },
+  { hex: '#DD6B20', name: 'Orange' },
+  { hex: '#D53F8C', name: 'Pink' },
+  { hex: '#319795', name: 'Teal' },
+  { hex: '#D69E2E', name: 'Yellow' },
+];
+
+function getProjectColor(projectId: string) {
+  if (!projectId) return PROJECT_COLORS[0];
+  try {
+    const index = parseInt(projectId.slice(-3), 16) % PROJECT_COLORS.length;
+    return PROJECT_COLORS[isNaN(index) ? 0 : index];
+  } catch {
+    return PROJECT_COLORS[0];
+  }
+}
+
 type Tab = 'items' | 'add' | 'assign';
 type AddTab = 'photo' | 'manual';
-type ExtItem = InventoryItem & { qr_base64?: string | null };
+type ExtItem = InventoryItem & { qr_base64?: string | null; image_url?: string | null };
 
 function fmt(n?: number | null) { return n != null ? '$' + n.toLocaleString() : '—'; }
 
@@ -29,23 +50,43 @@ const inputSty: React.CSSProperties = { width: '100%', backgroundColor: '#0a0a0a
 const lblCls = 'block text-xs font-semibold mb-1.5 uppercase tracking-wider';
 
 // ── Print Label ───────────────────────────────────────────────────────────────
-function printLabel(item: ExtItem) {
-  const win = window.open('', '_blank', 'width=420,height=580');
+async function printLabel(item: ExtItem) {
+  const win = window.open('', '_blank', 'width=480,height=640');
   if (!win) return;
-  win.document.write(`<html><head><title>${item.sku || 'Label'}</title>
+
+  // Try to fetch QR from API
+  let qrSrc = item.qr_base64 ? `data:image/png;base64,${item.qr_base64}` : '';
+  if (!qrSrc && item.sku) {
+    try {
+      const res = await fetch(`/api/inventory/qr/${item.sku}`);
+      if (res.ok) {
+        const d = await res.json();
+        if (d.qr_base64) qrSrc = `data:image/png;base64,${d.qr_base64}`;
+      }
+    } catch { /* use placeholder */ }
+  }
+
+  win.document.write(`<!DOCTYPE html><html><head><title>${item.sku || 'Label'}</title>
   <style>
-    body{margin:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;padding:28px;box-sizing:border-box;text-align:center;}
-    .brand{font-size:10px;letter-spacing:4px;color:#aaa;text-transform:uppercase;margin-bottom:20px;}
-    img{width:280px;height:280px;}
-    .name{font-size:22px;font-weight:700;margin:14px 0 4px;}
-    .sku{font-family:monospace;font-size:14px;color:#555;margin-bottom:8px;}
-    .meta{font-size:12px;color:#888;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:sans-serif;background:#fff;display:flex;flex-direction:column;align-items:center;padding:32px 24px;min-height:100vh;}
+    .brand{font-size:10px;letter-spacing:4px;color:#aaa;text-transform:uppercase;margin-bottom:24px;}
+    .qr{width:300px;height:300px;border:1px solid #eee;border-radius:8px;}
+    .qr-placeholder{width:300px;height:300px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:14px;color:#aaa;border-radius:8px;}
+    .name{font-size:22px;font-weight:700;margin:18px 0 6px;text-align:center;}
+    .sku{font-family:monospace;font-size:15px;color:#555;margin-bottom:8px;}
+    .meta{font-size:13px;color:#888;margin-bottom:4px;}
+    @media print{body{padding:16px;} .no-print{display:none;}}
   </style></head><body>
   <div class="brand">Aura Home Staging</div>
-  ${item.qr_base64 ? `<img src="data:image/png;base64,${item.qr_base64}" />` : '<div style="width:280px;height:280px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#aaa;">No QR</div>'}
+  ${qrSrc ? `<img src="${qrSrc}" class="qr" />` : '<div class="qr-placeholder">No QR Code</div>'}
   <div class="name">${item.item_name}</div>
   <div class="sku">${item.sku || '—'}</div>
   <div class="meta">${item.category} · ${item.condition || 'good'}</div>
+  ${item.estimated_value != null ? `<div class="meta">Est. Value: $${item.estimated_value.toLocaleString()}</div>` : ''}
+  <div class="no-print" style="margin-top:24px;">
+    <button onclick="window.print()" style="padding:10px 28px;background:#c9a84c;color:#000;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px;">PRINT</button>
+  </div>
   <script>window.onload=()=>{window.print();}<\/script>
   </body></html>`);
   win.document.close();
@@ -55,14 +96,34 @@ function printLabel(item: ExtItem) {
 function InventoryCard({ item, onRefresh, onAssign }: { item: ExtItem; onRefresh: () => void; onAssign: () => void }) {
   const [editing, setEditing] = useState(false);
   const [removing, setRemoving] = useState(false);
-  const [form, setForm] = useState({ item_name: item.item_name, category: item.category, description: item.description || '', condition: item.condition || 'good', estimated_value: item.estimated_value?.toString() || '', quantity_total: item.quantity_total.toString(), purchase_price: item.purchase_price?.toString() || '', notes: item.notes || '' });
+  const [imgError, setImgError] = useState(false);
+  const [form, setForm] = useState({
+    item_name: item.item_name,
+    category: item.category,
+    description: item.description || '',
+    condition: item.condition || 'good',
+    estimated_value: item.estimated_value?.toString() || '',
+    quantity_total: item.quantity_total.toString(),
+    purchase_price: item.purchase_price?.toString() || '',
+    notes: item.notes || '',
+  });
   const [saving, setSaving] = useState(false);
-  const ff = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm(p => ({ ...p, [k]: e.target.value }));
+  const ff = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm(p => ({ ...p, [k]: e.target.value }));
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      const res = await fetch(`/api/inventory/${item.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, quantity_total: Number(form.quantity_total), estimated_value: form.estimated_value ? Number(form.estimated_value) : undefined, purchase_price: form.purchase_price ? Number(form.purchase_price) : undefined }) });
+      const res = await fetch(`/api/inventory/${item.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          quantity_total: Number(form.quantity_total),
+          estimated_value: form.estimated_value ? Number(form.estimated_value) : undefined,
+          purchase_price: form.purchase_price ? Number(form.purchase_price) : undefined,
+        }),
+      });
       if (res.ok) { setEditing(false); onRefresh(); }
     } finally { setSaving(false); }
   };
@@ -73,101 +134,110 @@ function InventoryCard({ item, onRefresh, onAssign }: { item: ExtItem; onRefresh
   };
 
   const initial = item.item_name.charAt(0).toUpperCase();
+  const showImage = item.image_url && !imgError;
 
   return (
-    <div className="rounded-xl p-5 flex flex-col gap-3 transition-all" style={{ backgroundColor: '#141414', border: '1px solid #2a2a2a' }}>
-      {/* Top badges */}
-      <div className="flex items-center justify-between gap-2 flex-wrap">
-        <span className="text-xs px-2 py-0.5 rounded font-semibold" style={{ backgroundColor: '#1a1400', color: gold }}>{item.category}</span>
-        <div className="flex items-center gap-2">
-          <span className="text-xs px-2 py-0.5 rounded capitalize" style={condStyle(item.condition)}>{item.condition || 'good'}</span>
-          <span className="text-xs font-semibold" style={{ color: item.quantity_available > 0 ? '#4ade80' : '#ef4444' }}>
-            {item.quantity_available}/{item.quantity_total}
-          </span>
-        </div>
-      </div>
-
+    <div className="rounded-xl overflow-hidden flex flex-col transition-all" style={{ backgroundColor: '#141414', border: '1px solid #2a2a2a' }}>
       {/* Photo / Placeholder */}
-      {item.image_path ? (
+      {showImage ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={`/api/inventory/image/${item.id}`}
+          src={item.image_url!}
           alt={item.item_name}
-          className="w-full rounded-lg object-cover"
-          style={{ height: 200 }}
+          className="w-full object-cover"
+          style={{ height: 192 }}
+          onError={() => setImgError(true)}
         />
       ) : (
-        <div className="w-full rounded-lg flex items-center justify-center text-4xl font-bold" style={{ height: 200, backgroundColor: '#1a1a1a', color: gold }}>
+        <div className="w-full flex items-center justify-center text-5xl font-bold" style={{ height: 192, backgroundColor: '#1a1a1a', color: gold }}>
           {initial}
         </div>
       )}
 
-      {/* QR code row */}
-      {item.qr_base64 && (
-        <div className="flex items-center gap-2">
-          <img src={`data:image/png;base64,${item.qr_base64}`} alt="QR" className="w-10 h-10 rounded" />
-          {item.sku && <span className="text-xs font-mono" style={{ color: '#555' }}>{item.sku}</span>}
-        </div>
-      )}
-
-      {/* Name + SKU + description */}
-      {editing ? (
-        <div className="space-y-2">
-          <input style={inputSty} value={form.item_name} onChange={ff('item_name')} placeholder="Item name" />
-          <select style={inputSty} value={form.category} onChange={ff('category')}>
-            {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-          <select style={inputSty} value={form.condition} onChange={ff('condition')}>
-            {CONDITIONS.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-          <input style={inputSty} type="number" value={form.quantity_total} onChange={ff('quantity_total')} placeholder="Qty" />
-          <input style={inputSty} type="number" value={form.estimated_value} onChange={ff('estimated_value')} placeholder="Est. value ($)" />
-          <input style={inputSty} value={form.description} onChange={ff('description')} placeholder="Description" />
-          <div className="flex gap-2 mt-2">
-            <button onClick={handleSave} disabled={saving} className="flex-1 py-2 rounded text-xs font-semibold uppercase tracking-wider min-h-[44px]" style={{ backgroundColor: '#4ade80', color: '#000' }}>{saving ? 'Saving…' : 'Save'}</button>
-            <button onClick={() => setEditing(false)} className="flex-1 py-2 rounded text-xs font-semibold uppercase tracking-wider min-h-[44px]" style={{ border: '1px solid #555', color: '#999' }}>Cancel</button>
+      <div className="p-4 flex flex-col gap-3 flex-1">
+        {/* Badges row */}
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <span className="text-xs px-2 py-0.5 rounded font-semibold" style={{ backgroundColor: '#1a1400', color: gold }}>{item.category}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs px-2 py-0.5 rounded capitalize" style={condStyle(item.condition)}>{item.condition || 'good'}</span>
+            <span className="text-xs font-semibold" style={{ color: item.quantity_available > 0 ? '#4ade80' : '#ef4444' }}>
+              {item.quantity_available}/{item.quantity_total}
+            </span>
           </div>
         </div>
-      ) : (
-        <>
-          <div>
-            <p className="text-sm font-semibold text-white leading-tight">{item.item_name}</p>
-            {item.sku && <p className="text-xs font-mono mt-0.5" style={{ color: '#555' }}>{item.sku}</p>}
-            {item.description && <p className="text-xs mt-1 line-clamp-2" style={{ color: '#777' }}>{item.description}</p>}
-          </div>
-          {item.estimated_value != null && (
-            <p className="text-sm font-semibold" style={{ color: gold }}>{fmt(item.estimated_value)}</p>
-          )}
-        </>
-      )}
 
-      {/* Remove confirmation */}
-      {removing && (
-        <div className="rounded-lg p-3 text-xs" style={{ backgroundColor: '#2a1a1a', border: '1px solid #ef4444' }}>
-          <p className="text-white mb-2">Remove <strong>{item.item_name}</strong>? This cannot be undone.</p>
-          <div className="flex gap-2">
-            <button onClick={handleDelete} className="flex-1 py-2 rounded font-semibold uppercase tracking-wider min-h-[44px]" style={{ backgroundColor: '#ef4444', color: '#fff' }}>Remove</button>
-            <button onClick={() => setRemoving(false)} className="flex-1 py-2 rounded font-semibold uppercase tracking-wider min-h-[44px]" style={{ border: '1px solid #555', color: '#999' }}>Cancel</button>
+        {/* Edit form or display */}
+        {editing ? (
+          <div className="space-y-2">
+            <input style={inputSty} value={form.item_name} onChange={ff('item_name')} placeholder="Item name" />
+            <select style={inputSty} value={form.category} onChange={ff('category')}>
+              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <select style={inputSty} value={form.condition} onChange={ff('condition')}>
+              {CONDITIONS.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <input style={inputSty} type="number" value={form.quantity_total} onChange={ff('quantity_total')} placeholder="Qty" />
+            <input style={inputSty} type="number" value={form.estimated_value} onChange={ff('estimated_value')} placeholder="Est. value ($)" />
+            <input style={inputSty} value={form.description} onChange={ff('description')} placeholder="Description" />
+            <div className="flex gap-2 mt-2">
+              <button onClick={handleSave} disabled={saving} className="flex-1 py-2 rounded text-xs font-semibold uppercase tracking-wider min-h-[44px]" style={{ backgroundColor: '#4ade80', color: '#000' }}>
+                {saving ? 'Saving…' : 'Save'}
+              </button>
+              <button onClick={() => setEditing(false)} className="flex-1 py-2 rounded text-xs font-semibold uppercase tracking-wider min-h-[44px]" style={{ border: '1px solid #555', color: '#999' }}>
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <>
+            <div>
+              <p className="text-sm font-semibold text-white leading-tight">{item.item_name}</p>
+              {item.sku && <p className="text-xs font-mono mt-0.5" style={{ color: gold }}>{item.sku}</p>}
+              {item.description && <p className="text-xs mt-1 line-clamp-2" style={{ color: '#777' }}>{item.description}</p>}
+            </div>
+            {item.estimated_value != null && (
+              <p className="text-sm font-semibold" style={{ color: gold }}>{fmt(item.estimated_value)}</p>
+            )}
+            {/* QR thumbnail */}
+            {item.qr_base64 && (
+              <div className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`data:image/png;base64,${item.qr_base64}`} alt="QR" className="w-10 h-10 rounded" />
+                <span className="text-xs font-mono" style={{ color: '#444' }}>{item.sku}</span>
+              </div>
+            )}
+          </>
+        )}
 
-      {/* Actions */}
-      {!editing && !removing && (
-        <div className="grid grid-cols-2 gap-2 mt-auto">
-          <button onClick={() => setEditing(true)} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-1 min-h-[44px] hover:opacity-80" style={{ border: `1px solid ${gold}`, color: gold }}>
-            <Edit2 size={11} />Edit
-          </button>
-          <button onClick={() => setRemoving(true)} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-1 min-h-[44px] hover:opacity-80" style={{ border: '1px solid #ef4444', color: '#ef4444' }}>
-            <Trash2 size={11} />Remove
-          </button>
-          <button onClick={() => printLabel(item)} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-1 min-h-[44px] hover:opacity-80" style={{ border: '1px solid #555', color: '#999' }}>
-            <Printer size={11} />Print
-          </button>
-          <button onClick={onAssign} disabled={item.quantity_available < 1} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold min-h-[44px] hover:opacity-80 disabled:opacity-30" style={{ backgroundColor: gold, color: '#000' }}>
-            Assign
-          </button>
-        </div>
-      )}
+        {/* Remove confirmation */}
+        {removing && (
+          <div className="rounded-lg p-3 text-xs" style={{ backgroundColor: '#2a1a1a', border: '1px solid #ef4444' }}>
+            <p className="text-white mb-2">Remove <strong>{item.item_name}</strong>? This cannot be undone.</p>
+            <div className="flex gap-2">
+              <button onClick={handleDelete} className="flex-1 py-2 rounded font-semibold uppercase tracking-wider min-h-[44px]" style={{ backgroundColor: '#ef4444', color: '#fff' }}>Remove</button>
+              <button onClick={() => setRemoving(false)} className="flex-1 py-2 rounded font-semibold uppercase tracking-wider min-h-[44px]" style={{ border: '1px solid #555', color: '#999' }}>Cancel</button>
+            </div>
+          </div>
+        )}
+
+        {/* Action buttons */}
+        {!editing && !removing && (
+          <div className="grid grid-cols-2 gap-2 mt-auto">
+            <button onClick={() => setEditing(true)} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-1 min-h-[44px] hover:opacity-80" style={{ border: `1px solid ${gold}`, color: gold }}>
+              <Edit2 size={11} />Edit
+            </button>
+            <button onClick={() => setRemoving(true)} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-1 min-h-[44px] hover:opacity-80" style={{ border: '1px solid #ef4444', color: '#ef4444' }}>
+              <Trash2 size={11} />Remove
+            </button>
+            <button onClick={() => printLabel(item)} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-1 min-h-[44px] hover:opacity-80" style={{ border: '1px solid #555', color: '#999' }}>
+              <Printer size={11} />Print Label
+            </button>
+            <button onClick={onAssign} disabled={item.quantity_available < 1} className="py-2.5 rounded text-xs uppercase tracking-wider font-semibold min-h-[44px] hover:opacity-80 disabled:opacity-30" style={{ backgroundColor: gold, color: '#000' }}>
+              Assign
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -192,7 +262,7 @@ function ManualForm({ onSaved }: { onSaved: () => void }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {msg && <div className="rounded px-4 py-2 text-xs" style={{ backgroundColor: '#1a1400', border: `1px solid ${gold}`, color: gold }}>{msg}</div>}
+      {msg && <div className="rounded px-4 py-2 text-xs" style={{ backgroundColor: '#1a2a1a', border: '1px solid #4ade80', color: '#4ade80' }}>{msg}</div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="md:col-span-2"><label className={lblCls} style={{ color: '#999' }}>Item Name *</label><input required style={inputSty} value={form.item_name} onChange={ff('item_name')} /></div>
         <div><label className={lblCls} style={{ color: '#999' }}>Category</label><select style={inputSty} value={form.category} onChange={ff('category')}>{CATEGORIES.map(c => <option key={c}>{c}</option>)}</select></div>
@@ -221,13 +291,14 @@ function PhotoForm({ onSaved }: { onSaved: () => void }) {
   const [imagePath, setImagePath] = useState<string | null>(null);
   const [form, setForm] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [savedItem, setSavedItem] = useState<{ item_name: string; sku: string; qr_base64?: string } | null>(null);
   const [msg, setMsg] = useState('');
   const ff = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm(p => ({ ...p, [k]: e.target.value }));
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
     if (!f) return;
-    setFile(f); setPreview(URL.createObjectURL(f)); setAiResult(null); setQrB64(null);
+    setFile(f); setPreview(URL.createObjectURL(f)); setAiResult(null); setQrB64(null); setSavedItem(null);
   };
 
   const handleAnalyze = async () => {
@@ -236,7 +307,17 @@ function PhotoForm({ onSaved }: { onSaved: () => void }) {
     try {
       const res = await analyzeInventoryImage(file);
       setAiResult(res.ai_result); setQrB64(res.qr_base64); setImagePath(res.image_path);
-      setForm({ item_name: String(res.ai_result.item_name || ''), category: String(res.ai_result.category || 'Other'), description: String(res.ai_result.description || ''), condition: String(res.ai_result.condition || 'good'), estimated_value: res.ai_result.estimated_value != null ? String(res.ai_result.estimated_value) : '', sku: String(res.ai_result.sku || ''), quantity_total: '1', purchase_price: '', notes: '' });
+      setForm({
+        item_name: String(res.ai_result.item_name || ''),
+        category: String(res.ai_result.category || 'Other'),
+        description: String(res.ai_result.description || ''),
+        condition: String(res.ai_result.condition || 'good'),
+        estimated_value: res.ai_result.estimated_value != null ? String(res.ai_result.estimated_value) : '',
+        sku: String(res.ai_result.sku || ''),
+        quantity_total: '1',
+        purchase_price: '',
+        notes: '',
+      });
     } catch (err) { setMsg(err instanceof Error ? err.message : 'Analysis failed'); }
     finally { setAnalyzing(false); }
   };
@@ -244,25 +325,68 @@ function PhotoForm({ onSaved }: { onSaved: () => void }) {
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault(); setSubmitting(true);
     try {
-      await confirmInventoryItem({ ...form, quantity_total: Number(form.quantity_total), estimated_value: form.estimated_value ? Number(form.estimated_value) : undefined, purchase_price: form.purchase_price ? Number(form.purchase_price) : undefined, image_path: imagePath });
-      setMsg('Item saved!'); setAiResult(null); setFile(null); setPreview(null); setQrB64(null); setForm({});
+      const saved = await confirmInventoryItem({
+        ...form,
+        quantity_total: Number(form.quantity_total),
+        estimated_value: form.estimated_value ? Number(form.estimated_value) : undefined,
+        purchase_price: form.purchase_price ? Number(form.purchase_price) : undefined,
+        image_path: imagePath,
+      });
+      setSavedItem({ item_name: saved.item_name, sku: saved.sku || form.sku, qr_base64: saved.qr_base64 });
+      setAiResult(null); setFile(null); setPreview(null); setQrB64(null); setForm({});
       onSaved();
     } catch (err) { setMsg(err instanceof Error ? err.message : 'Failed'); }
-    finally { setSubmitting(false); setTimeout(() => setMsg(''), 4000); }
+    finally { setSubmitting(false); }
   };
+
+  if (savedItem) {
+    return (
+      <div className="space-y-4 text-center">
+        <div className="rounded-xl p-6" style={{ backgroundColor: '#1a2a1a', border: '1px solid #2a5a2a' }}>
+          <p className="text-green-400 font-semibold text-base mb-1">Item Saved!</p>
+          <p className="text-white text-sm mb-4">{savedItem.item_name}</p>
+          {savedItem.qr_base64 && (
+            <div className="flex flex-col items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`data:image/png;base64,${savedItem.qr_base64}`} alt="QR" className="w-40 h-40 rounded-lg border border-gray-700" />
+              <p className="text-xs font-mono" style={{ color: gold }}>{savedItem.sku}</p>
+              <p className="text-xs" style={{ color: '#555' }}>QR code ready to print</p>
+            </div>
+          )}
+        </div>
+        <button
+          onClick={() => setSavedItem(null)}
+          className="px-6 py-3 rounded font-semibold text-xs tracking-widest uppercase hover:opacity-80 min-h-[44px]"
+          style={{ backgroundColor: gold, color: '#000' }}
+        >
+          Add Another Item
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       {msg && <div className="rounded px-4 py-2 text-xs" style={{ backgroundColor: '#1a1400', border: `1px solid ${gold}`, color: gold }}>{msg}</div>}
 
       {/* Upload zone */}
-      <div onClick={() => fileRef.current?.click()}
+      <div
+        onClick={() => fileRef.current?.click()}
         className="relative rounded-xl flex flex-col items-center justify-center cursor-pointer hover:opacity-90 transition-opacity"
-        style={{ minHeight: 200, border: `2px dashed ${gold}`, backgroundColor: '#0a0a0a' }}>
+        style={{ minHeight: 200, border: `2px dashed ${gold}`, backgroundColor: '#0a0a0a' }}
+      >
         <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFile} />
         {preview
-          ? <img src={preview} alt="Preview" className="rounded-xl object-cover" style={{ maxHeight: 220, maxWidth: '100%' }} />
-          : <><Camera size={40} style={{ color: gold }} className="mb-3" /><p className="text-sm" style={{ color: '#999' }}>Tap to take a photo or upload image</p></>}
+          ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={preview} alt="Preview" className="rounded-xl object-cover" style={{ maxHeight: 220, maxWidth: '100%' }} />
+          )
+          : (
+            <>
+              <Camera size={40} style={{ color: gold }} className="mb-3" />
+              <p className="text-sm" style={{ color: '#999' }}>Tap to take a photo or upload image</p>
+            </>
+          )}
       </div>
 
       {file && !aiResult && !analyzing && (
@@ -273,20 +397,26 @@ function PhotoForm({ onSaved }: { onSaved: () => void }) {
 
       {analyzing && (
         <div className="flex items-center justify-center gap-3 py-4">
-          <div className="flex gap-1">{[0,1,2].map(i => <div key={i} className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: gold, animationDelay: `${i*0.15}s` }} />)}</div>
+          <div className="flex gap-1">
+            {[0, 1, 2].map(i => (
+              <div key={i} className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: gold, animationDelay: `${i * 0.15}s` }} />
+            ))}
+          </div>
           <span className="text-sm italic" style={{ color: '#999' }}>Heather is identifying this item…</span>
         </div>
       )}
 
       {aiResult && (
         <form onSubmit={handleConfirm} className="space-y-4">
-          {/* Heather result card */}
-          <div className="rounded-xl p-4" style={{ backgroundColor: '#0a0a0a', border: `1px solid #2a2000` }}>
+          <div className="rounded-xl p-4" style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2000' }}>
             <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0" style={{ backgroundColor: gold, color: '#000' }}>H</div>
               <div>
                 <p className="text-sm font-semibold text-white">I&apos;ve identified this item:</p>
-                <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: aiResult.confidence === 'high' ? '#1a2a1a' : aiResult.confidence === 'medium' ? '#1a1400' : '#2a1a1a', color: aiResult.confidence === 'high' ? '#4ade80' : aiResult.confidence === 'medium' ? gold : '#ef4444' }}>
+                <span className="text-xs px-2 py-0.5 rounded" style={{
+                  backgroundColor: aiResult.confidence === 'high' ? '#1a2a1a' : aiResult.confidence === 'medium' ? '#1a1400' : '#2a1a1a',
+                  color: aiResult.confidence === 'high' ? '#4ade80' : aiResult.confidence === 'medium' ? gold : '#ef4444',
+                }}>
                   {String(aiResult.confidence).toUpperCase()} CONFIDENCE
                 </span>
               </div>
@@ -307,8 +437,12 @@ function PhotoForm({ onSaved }: { onSaved: () => void }) {
 
           {qrB64 && (
             <div className="flex items-center gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`data:image/png;base64,${qrB64}`} alt="QR" className="w-24 h-24 rounded-lg" />
-              <div><p className="text-xs font-mono" style={{ color: gold }}>{form.sku}</p><p className="text-xs mt-1" style={{ color: '#555' }}>QR code ready to print</p></div>
+              <div>
+                <p className="text-xs font-mono" style={{ color: gold }}>{form.sku}</p>
+                <p className="text-xs mt-1" style={{ color: '#555' }}>QR code ready to print</p>
+              </div>
             </div>
           )}
 
@@ -334,14 +468,20 @@ function AssignTab({ items }: { items: ExtItem[] }) {
   const [qty, setQty] = useState<Record<string, string>>({});
   const [msg, setMsg] = useState('');
 
-  useEffect(() => { getProjects().then(p => setProjects(p.filter(x => x.project_status === 'active'))).catch(() => null); }, []);
-  useEffect(() => { if (selectedProject) getProjectInventory(selectedProject).then(setProjectInv).catch(() => null); }, [selectedProject]);
+  useEffect(() => {
+    getProjects().then(p => setProjects(p.filter(x => x.project_status === 'active'))).catch(() => null);
+  }, []);
+
+  useEffect(() => {
+    if (selectedProject) getProjectInventory(selectedProject).then(setProjectInv).catch(() => null);
+  }, [selectedProject]);
 
   const handleAssign = async (itemId: string) => {
     if (!selectedProject) return;
     try {
       await assignInventory({ project_id: selectedProject, inventory_id: itemId, quantity_used: Number(qty[itemId] || 1) });
-      setMsg('Assigned.'); getProjectInventory(selectedProject).then(setProjectInv).catch(() => null);
+      setMsg('Assigned.');
+      getProjectInventory(selectedProject).then(setProjectInv).catch(() => null);
     } catch (err) { setMsg(err instanceof Error ? err.message : 'Failed'); }
     setTimeout(() => setMsg(''), 3000);
   };
@@ -351,17 +491,35 @@ function AssignTab({ items }: { items: ExtItem[] }) {
     getProjectInventory(selectedProject).then(setProjectInv).catch(() => null);
   };
 
+  const selectedColor = selectedProject ? getProjectColor(selectedProject) : null;
   const available = items.filter(i => i.quantity_available > 0);
 
   return (
     <div className="space-y-6">
       {msg && <div className="rounded px-4 py-2 text-xs" style={{ backgroundColor: '#1a1400', border: `1px solid ${gold}`, color: gold }}>{msg}</div>}
+
       <div>
         <label className={lblCls} style={{ color: '#999' }}>Select Project</label>
         <select style={inputSty} value={selectedProject} onChange={e => setSelectedProject(e.target.value)}>
           <option value="">Select project…</option>
-          {projects.map(p => <option key={p.id} value={p.id}>{p.client_name}</option>)}
+          {projects.map(p => {
+            return <option key={p.id} value={p.id}>{p.client_name} — {p.property_address}</option>;
+          })}
         </select>
+
+        {selectedProject && selectedColor && (
+          <div className="flex items-center gap-2 mt-2">
+            <div className="w-4 h-4 rounded-full flex-shrink-0" style={{ backgroundColor: selectedColor.hex }} />
+            <span className="text-xs" style={{ color: '#888' }}>Project color: <span style={{ color: selectedColor.hex, fontWeight: 600 }}>{selectedColor.name}</span></span>
+            <button
+              onClick={() => window.open(`/api/inventory/labels/${selectedProject}`, '_blank')}
+              className="ml-auto text-xs px-3 py-1.5 rounded font-semibold uppercase tracking-wider hover:opacity-80 min-h-[36px]"
+              style={{ backgroundColor: selectedColor.hex, color: '#fff' }}
+            >
+              🖨 Print All Labels
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -369,7 +527,8 @@ function AssignTab({ items }: { items: ExtItem[] }) {
         <div>
           <p className="text-xs tracking-widest uppercase mb-3" style={{ color: '#555' }}>Available Items</p>
           <div className="space-y-2">
-            {available.length === 0 ? <p className="text-sm" style={{ color: '#555' }}>No items available.</p>
+            {available.length === 0
+              ? <p className="text-sm" style={{ color: '#555' }}>No items available.</p>
               : available.map(item => (
                 <div key={item.id} className="flex items-center justify-between rounded-lg px-4 py-3 gap-3" style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2a2a' }}>
                   <div className="min-w-0 flex-1">
@@ -377,9 +536,19 @@ function AssignTab({ items }: { items: ExtItem[] }) {
                     <p className="text-xs" style={{ color: '#555' }}>{item.category} · {item.quantity_available} avail</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <input type="number" min="1" max={item.quantity_available} value={qty[item.id] || '1'} onChange={e => setQty(p => ({ ...p, [item.id]: e.target.value }))}
-                      className="rounded text-center text-xs text-white" style={{ width: 44, backgroundColor: '#1a1a1a', border: '1px solid #2a2a2a', padding: '6px 4px' }} />
-                    <button onClick={() => handleAssign(item.id)} disabled={!selectedProject} className="text-xs px-3 py-2 rounded uppercase tracking-wider font-semibold hover:opacity-80 disabled:opacity-30 min-h-[44px]" style={{ backgroundColor: gold, color: '#000' }}>
+                    <input
+                      type="number" min="1" max={item.quantity_available}
+                      value={qty[item.id] || '1'}
+                      onChange={e => setQty(p => ({ ...p, [item.id]: e.target.value }))}
+                      className="rounded text-center text-xs text-white"
+                      style={{ width: 44, backgroundColor: '#1a1a1a', border: '1px solid #2a2a2a', padding: '6px 4px' }}
+                    />
+                    <button
+                      onClick={() => handleAssign(item.id)}
+                      disabled={!selectedProject}
+                      className="text-xs px-3 py-2 rounded uppercase tracking-wider font-semibold hover:opacity-80 disabled:opacity-30 min-h-[44px]"
+                      style={{ backgroundColor: selectedColor?.hex || gold, color: '#fff' }}
+                    >
                       Assign
                     </button>
                   </div>
@@ -396,17 +565,22 @@ function AssignTab({ items }: { items: ExtItem[] }) {
             ? <p className="text-sm" style={{ color: '#555' }}>Select a project to see assignments.</p>
             : projectInv.length === 0
               ? <p className="text-sm" style={{ color: '#555' }}>Nothing assigned yet.</p>
-              : <div className="space-y-2">
+              : (
+                <div className="space-y-2">
                   {projectInv.map(a => (
-                    <div key={a.id} className="flex items-center justify-between rounded-lg px-4 py-3" style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2a2a' }}>
-                      <div>
-                        <p className="text-sm text-white">{(a as ProjectInventory & { inventory?: InventoryItem }).inventory?.item_name ?? '—'}</p>
-                        <p className="text-xs" style={{ color: '#555' }}>Qty: {a.quantity_used}</p>
+                    <div key={a.id} className="flex items-center justify-between rounded-lg px-4 py-3" style={{ backgroundColor: '#0a0a0a', border: `1px solid ${selectedColor?.hex || '#2a2a2a'}33` }}>
+                      <div className="flex items-center gap-2">
+                        {selectedColor && <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: selectedColor.hex }} />}
+                        <div>
+                          <p className="text-sm text-white">{(a as ProjectInventory & { inventory?: InventoryItem }).inventory?.item_name ?? '—'}</p>
+                          <p className="text-xs" style={{ color: '#555' }}>Qty: {a.quantity_used}</p>
+                        </div>
                       </div>
                       <button onClick={() => handleReturn(a.id)} className="text-xs px-3 py-2 rounded hover:opacity-70 min-h-[44px]" style={{ border: '1px solid #555', color: '#999' }}>Return</button>
                     </div>
                   ))}
                 </div>
+              )
           }
         </div>
       </div>
@@ -425,7 +599,7 @@ export default function InventoryPage() {
 
   const refresh = () => {
     setLoading(true);
-    getInventory().then(setItems).catch(() => null).finally(() => setLoading(false));
+    getInventory().then(d => setItems(d as ExtItem[])).catch(() => null).finally(() => setLoading(false));
   };
 
   useEffect(() => { refresh(); }, []);
@@ -445,7 +619,6 @@ export default function InventoryPage() {
   return (
     <AuthGuard>
       <div>
-        {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div>
             <h1 className="text-sm font-semibold tracking-widest uppercase" style={{ color: gold }}>
@@ -470,7 +643,6 @@ export default function InventoryPage() {
         {/* TAB 1 — ALL ITEMS */}
         {tab === 'items' && (
           <div>
-            {/* Search + category filters */}
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
               <div className="relative flex-1">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#555' }} />
@@ -493,13 +665,23 @@ export default function InventoryPage() {
             {loading
               ? <div className="flex justify-center py-20"><div className="w-8 h-8 border-2 rounded-full animate-spin" style={{ borderColor: gold, borderTopColor: 'transparent' }} /></div>
               : filtered.length === 0
-                ? <div className="text-center py-20">
+                ? (
+                  <div className="text-center py-20">
                     <p className="text-sm mb-3" style={{ color: '#555' }}>{items.length === 0 ? 'No inventory items yet.' : 'No items match your search.'}</p>
-                    {items.length === 0 && <button onClick={() => setTab('add')} className="text-xs uppercase tracking-widest font-semibold hover:opacity-80" style={{ color: gold }}>Add your first item →</button>}
+                    {items.length === 0 && (
+                      <button onClick={() => setTab('add')} className="text-xs uppercase tracking-widest font-semibold hover:opacity-80" style={{ color: gold }}>
+                        Add your first item →
+                      </button>
+                    )}
                   </div>
-                : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {filtered.map(item => <InventoryCard key={item.id} item={item} onRefresh={refresh} onAssign={() => setTab('assign')} />)}
+                )
+                : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {filtered.map(item => (
+                      <InventoryCard key={item.id} item={item} onRefresh={refresh} onAssign={() => setTab('assign')} />
+                    ))}
                   </div>
+                )
             }
           </div>
         )}
@@ -516,7 +698,7 @@ export default function InventoryPage() {
                 </button>
               ))}
             </div>
-            {addTab === 'photo' ? <PhotoForm onSaved={() => { refresh(); setTab('items'); }} /> : <ManualForm onSaved={() => { refresh(); setTab('items'); }} />}
+            {addTab === 'photo' ? <PhotoForm onSaved={() => { refresh(); }} /> : <ManualForm onSaved={() => { refresh(); setTab('items'); }} />}
           </div>
         )}
 
