@@ -1,0 +1,28 @@
+# Environment variables - never commit secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+.next/
+frontend/.next/
+
+# Logs
+*.log
+backend.log
+frontend.log
+backend/backend.log
+frontend/frontend.log
+
+# OS
+.DS_Store
+Thumbs.db
