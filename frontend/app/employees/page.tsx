@@ -62,7 +62,7 @@ export default function EmployeesPage() {
       const empData = await empRes.json();
       const projData = await projRes.json();
       setEmployees(Array.isArray(empData) ? empData : []);
-      setProjects(Array.isArray(projData) ? projData.filter((p: Project) => p.status === 'active' || p.status === 'approved') : []);
+      setProjects(Array.isArray(projData) ? projData.filter((p: any) => p.project_status === 'active' || p.approval_status === 'approved') : []);
     } catch {
       setEmployees([]);
     } finally {

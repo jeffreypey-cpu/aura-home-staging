@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS employees (
   phone TEXT,
   role TEXT,
   email TEXT,
+  pin TEXT NOT NULL DEFAULT '',
   status TEXT DEFAULT 'clocked_out',
   last_clockin TIMESTAMPTZ,
   last_clockout TIMESTAMPTZ,

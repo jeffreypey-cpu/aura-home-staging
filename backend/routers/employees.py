@@ -17,6 +17,7 @@ class EmployeeCreate(BaseModel):
     phone: Optional[str] = None
     role: Optional[str] = None
     email: Optional[str] = None
+    pin: Optional[str] = None
 
 
 class ClockInRequest(BaseModel):
@@ -55,6 +56,7 @@ async def create_employee(body: EmployeeCreate):
             "phone": body.phone,
             "role": body.role,
             "email": body.email,
+            "pin": body.pin or "",
             "created_at": datetime.now(timezone.utc).isoformat(),
         }).execute()
         return res.data[0] if res.data else {}
