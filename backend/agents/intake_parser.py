@@ -11,7 +11,9 @@ client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 def parse_intake_message(raw_message: str) -> dict:
     """Parse a raw WhatsApp or form message and extract client intake fields."""
-    user_message = f"""Parse the following client intake message and return JSON only, no extra text.
+    user_message = f"""Acting as Heather, AI operations manager for Aura Home Staging:
+
+Parse the following client intake message and return JSON only, no extra text.
 
 Extract these fields:
 - client_name

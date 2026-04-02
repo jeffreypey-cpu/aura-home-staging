@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { createProject, parseIntakeMessage } from '@/lib/api';
+import AuthGuard from '@/components/AuthGuard';
 
 const emptyForm = {
   client_name: '',
@@ -75,43 +76,52 @@ export default function IntakePage() {
     }
   };
 
-  const labelClass = 'block text-sm font-semibold mb-1';
-  const inputClass =
-    'w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400';
+  const labelClass = 'block text-xs font-semibold mb-1.5 uppercase tracking-wider';
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    backgroundColor: '#0a0a0a',
+    border: '1px solid #2a2a2a',
+    color: '#ffffff',
+    borderRadius: 8,
+    padding: '10px 12px',
+    fontSize: 13,
+    outline: 'none',
+  };
 
   return (
+    <AuthGuard>
     <div>
-      <h1 className="text-2xl font-bold mb-6" style={{ color: '#0f1f3d' }}>
+      <h1 className="text-sm font-semibold tracking-widest uppercase mb-6" style={{ color: '#999999' }}>
         Project Intake
       </h1>
 
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-1 mb-6" style={{ borderBottom: '1px solid #2a2a2a', paddingBottom: 0 }}>
         {(['manual', 'parse'] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+            className="flex-1 md:flex-none px-5 py-3 text-xs tracking-widest uppercase font-semibold transition-colors min-h-[44px]"
+            style={
               tab === t
-                ? 'text-white'
-                : 'bg-white text-gray-500 border border-gray-200 hover:bg-gray-50'
-            }`}
-            style={tab === t ? { backgroundColor: '#0f1f3d' } : {}}
+                ? { color: '#ffffff', borderBottom: '2px solid #c9a84c', marginBottom: -1 }
+                : { color: '#999999', borderBottom: '2px solid transparent', marginBottom: -1 }
+            }
           >
             {t === 'manual' ? 'Manual Entry' : 'Parse Message'}
           </button>
         ))}
       </div>
 
-      <div className="bg-white rounded-xl shadow p-8">
+      <div className="rounded-xl p-4 md:p-8" style={{ backgroundColor: '#141414', border: '1px solid #2a2a2a' }}>
         {tab === 'manual' ? (
-          <form onSubmit={handleManualSubmit} className="space-y-4 max-w-lg">
+          <form onSubmit={handleManualSubmit} className="space-y-4 w-full max-w-lg">
             {successId && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-green-700 text-sm">
+              <div className="rounded p-3 text-xs" style={{ backgroundColor: '#1a2a1a', border: '1px solid #4ade80', color: '#4ade80' }}>
                 Project created! ID: <span className="font-mono">{successId}</span>
               </div>
             )}
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">
+              <div className="rounded p-3 text-xs" style={{ backgroundColor: '#2a1a1a', border: '1px solid #ef4444', color: '#ef4444' }}>
                 {error}
               </div>
             )}
@@ -124,43 +134,43 @@ export default function IntakePage() {
               { label: 'Staging Date', key: 'staging_date', type: 'date', required: true },
             ].map(({ label, key, type, required }) => (
               <div key={key}>
-                <label className={labelClass} style={{ color: '#0f1f3d' }}>
-                  {label}
-                </label>
+                <label className={labelClass} style={{ color: '#999999' }}>{label}</label>
                 <input
                   type={type}
                   required={required}
                   value={form[key as keyof typeof form]}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                  className={inputClass}
+                  style={inputStyle}
+                  onFocus={(e) => (e.target.style.borderColor = '#c9a84c')}
+                  onBlur={(e) => (e.target.style.borderColor = '#2a2a2a')}
                 />
               </div>
             ))}
             <div>
-              <label className={labelClass} style={{ color: '#0f1f3d' }}>
-                Notes
-              </label>
+              <label className={labelClass} style={{ color: '#999999' }}>Notes</label>
               <textarea
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
                 rows={3}
-                className={inputClass}
+                style={{ ...inputStyle, resize: 'vertical' }}
+                onFocus={(e) => (e.target.style.borderColor = '#c9a84c')}
+                onBlur={(e) => (e.target.style.borderColor = '#2a2a2a')}
               />
             </div>
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-2.5 rounded-lg text-white font-semibold text-sm disabled:opacity-50 transition-colors hover:opacity-90"
+              className="w-full py-3 rounded text-black text-xs font-semibold tracking-widest uppercase disabled:opacity-50 transition-opacity hover:opacity-80 min-h-[44px]"
               style={{ backgroundColor: '#c9a84c' }}
             >
               {submitting ? 'Creating…' : 'Create Project'}
             </button>
           </form>
         ) : (
-          <div className="max-w-lg space-y-4">
+          <div className="w-full max-w-lg space-y-4">
             <form onSubmit={handleParse} className="space-y-4">
               <div>
-                <label className={labelClass} style={{ color: '#0f1f3d' }}>
+                <label className={labelClass} style={{ color: '#999999' }}>
                   Raw WhatsApp / SMS Message
                 </label>
                 <textarea
@@ -169,13 +179,15 @@ export default function IntakePage() {
                   rows={6}
                   required
                   placeholder="Paste the client message here…"
-                  className={inputClass}
+                  style={{ ...inputStyle, resize: 'vertical' }}
+                  onFocus={(e) => (e.target.style.borderColor = '#c9a84c')}
+                  onBlur={(e) => (e.target.style.borderColor = '#2a2a2a')}
                 />
               </div>
               <button
                 type="submit"
                 disabled={parsing}
-                className="py-2.5 px-6 rounded-lg text-white font-semibold text-sm disabled:opacity-50 transition-colors hover:opacity-90"
+                className="w-full md:w-auto py-3 px-8 rounded text-black text-xs font-semibold tracking-widest uppercase disabled:opacity-50 transition-opacity hover:opacity-80 min-h-[44px]"
                 style={{ backgroundColor: '#c9a84c' }}
               >
                 {parsing ? 'Parsing…' : 'Parse Message'}
@@ -183,31 +195,34 @@ export default function IntakePage() {
             </form>
 
             {parseError && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">
+              <div className="rounded p-3 text-xs" style={{ backgroundColor: '#2a1a1a', border: '1px solid #ef4444', color: '#ef4444' }}>
                 {parseError}
               </div>
             )}
 
             {parsed && (
               <div className="space-y-3">
-                <pre className="bg-gray-50 rounded-lg p-4 text-xs overflow-x-auto">
+                <pre
+                  className="rounded p-4 text-xs overflow-x-auto"
+                  style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2a2a', color: '#cccccc' }}
+                >
                   {JSON.stringify(parsed, null, 2)}
                 </pre>
                 <button
                   onClick={handleCreateFromParsed}
                   disabled={submitting}
-                  className="py-2.5 px-6 rounded-lg font-semibold text-sm disabled:opacity-50 text-white transition-colors"
-                  style={{ backgroundColor: '#0f1f3d' }}
+                  className="w-full md:w-auto py-3 px-8 rounded text-black text-xs font-semibold tracking-widest uppercase disabled:opacity-50 transition-opacity hover:opacity-80 min-h-[44px]"
+                  style={{ backgroundColor: '#c9a84c' }}
                 >
                   {submitting ? 'Creating…' : 'Create Project from this data'}
                 </button>
                 {successId && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-green-700 text-sm">
+                  <div className="rounded p-3 text-xs" style={{ backgroundColor: '#1a2a1a', border: '1px solid #4ade80', color: '#4ade80' }}>
                     Project created! ID: <span className="font-mono">{successId}</span>
                   </div>
                 )}
                 {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">
+                  <div className="rounded p-3 text-xs" style={{ backgroundColor: '#2a1a1a', border: '1px solid #ef4444', color: '#ef4444' }}>
                     {error}
                   </div>
                 )}
@@ -217,5 +232,6 @@ export default function IntakePage() {
         )}
       </div>
     </div>
+    </AuthGuard>
   );
 }

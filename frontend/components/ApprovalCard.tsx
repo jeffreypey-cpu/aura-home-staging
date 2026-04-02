@@ -16,19 +16,27 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Props) {
   const formatted = new Date(approval.created_at).toLocaleString();
 
   return (
-    <div className="bg-white rounded-xl shadow p-6 border-l-4 border-yellow-400">
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <span className="font-semibold text-gray-800 capitalize">
+    <div
+      className="rounded-xl p-4 md:p-6"
+      style={{ backgroundColor: '#141414', border: '1px solid #2a2a2a', borderLeftWidth: 3, borderLeftColor: '#c9a84c' }}
+    >
+      <div className="flex items-start justify-between mb-3 gap-3">
+        <div className="min-w-0">
+          <span className="font-semibold text-white capitalize text-sm tracking-wide">
             {approval.action_type?.replace(/_/g, ' ')}
           </span>
-          <p className="text-xs text-gray-400 mt-0.5">{formatted}</p>
+          <p className="text-xs mt-0.5" style={{ color: '#999999' }}>{formatted}</p>
         </div>
-        <span className="text-xs text-gray-400">#{approval.id.slice(0, 8)}</span>
+        <span className="text-xs font-mono flex-shrink-0" style={{ color: '#999999' }}>
+          #{approval.id.slice(0, 8)}
+        </span>
       </div>
 
       {approval.approval_message && (
-        <pre className="text-sm text-gray-600 bg-gray-50 rounded p-3 whitespace-pre-wrap mb-3 font-sans">
+        <pre
+          className="text-xs md:text-sm rounded p-3 whitespace-pre-wrap mb-3 font-sans overflow-x-auto"
+          style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2a2a', color: '#cccccc' }}
+        >
           {approval.approval_message}
         </pre>
       )}
@@ -37,28 +45,34 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Props) {
         <div className="mb-3">
           <button
             onClick={() => setEmailsOpen(!emailsOpen)}
-            className="text-xs text-blue-600 underline"
+            className="text-xs underline transition-colors hover:text-yellow-400"
+            style={{ color: '#c9a84c' }}
           >
             {emailsOpen ? 'Hide' : 'Show'} emails ({emails.length})
           </button>
           {emailsOpen && (
-            <pre className="text-xs bg-gray-50 rounded p-3 mt-2 whitespace-pre-wrap overflow-x-auto">
+            <pre
+              className="text-xs rounded p-3 mt-2 whitespace-pre-wrap overflow-x-auto"
+              style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2a2a', color: '#cccccc' }}
+            >
               {JSON.stringify(emails, null, 2)}
             </pre>
           )}
         </div>
       )}
 
-      <div className="flex gap-3 mt-4">
+      <div className="flex flex-col sm:flex-row gap-3 mt-4">
         <button
           onClick={() => onApprove(approval.id)}
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-lg transition-colors"
+          className="flex-1 text-black text-xs font-semibold py-3 rounded tracking-wider uppercase transition-opacity hover:opacity-80 min-h-[44px]"
+          style={{ backgroundColor: '#c9a84c' }}
         >
           APPROVE
         </button>
         <button
           onClick={() => onReject(approval.id)}
-          className="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2 rounded-lg transition-colors"
+          className="flex-1 text-xs font-semibold py-3 rounded tracking-wider uppercase transition-colors hover:bg-red-950 min-h-[44px]"
+          style={{ border: '1px solid #ef4444', color: '#ef4444', backgroundColor: 'transparent' }}
         >
           REJECT / HOLD
         </button>

@@ -11,7 +11,9 @@ client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 def draft_completion_emails(project: dict) -> dict:
     """After a staging job is marked complete, generate 4 follow-up email drafts."""
-    user_message = f"""Draft 4 professional follow-up emails on behalf of Tran at Aura Home Staging.
+    user_message = f"""Acting as Heather, AI operations manager for Aura Home Staging:
+
+Draft 4 professional follow-up emails on behalf of Tran at Aura Home Staging.
 Tone: warm, professional, grateful. Return JSON only with this exact structure:
 
 {{

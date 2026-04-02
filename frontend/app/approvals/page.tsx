@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { getPendingApprovals, approveAction, rejectAction, Approval } from '@/lib/api';
 import ApprovalCard from '@/components/ApprovalCard';
+import AuthGuard from '@/components/AuthGuard';
 
 interface Toast {
   message: string;
@@ -56,29 +57,33 @@ export default function ApprovalsPage() {
   };
 
   return (
+    <AuthGuard>
     <div>
-      <div className="flex items-center gap-3 mb-6">
-        <h1 className="text-2xl font-bold" style={{ color: '#0f1f3d' }}>
+      <div className="flex items-center gap-4 mb-3">
+        <h1 className="text-sm font-semibold tracking-widest uppercase text-white">
           Pending Approvals
         </h1>
         {approvals.length > 0 && (
-          <span className="bg-yellow-100 text-yellow-700 text-sm font-semibold px-3 py-0.5 rounded-full">
+          <span
+            className="text-xs font-semibold px-2.5 py-0.5 rounded-full"
+            style={{ backgroundColor: '#c9a84c', color: '#000000' }}
+          >
             {approvals.length}
           </span>
         )}
       </div>
-      <p className="text-gray-500 mb-8 text-sm">
+      <p className="text-xs tracking-wide mb-8" style={{ color: '#999999' }}>
         Review and approve or reject pending AI-generated actions before they execute.
       </p>
 
       {loading ? (
         <div className="flex justify-center py-20">
-          <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#c9a84c', borderTopColor: 'transparent' }} />
         </div>
       ) : approvals.length === 0 ? (
-        <div className="text-center py-20 text-gray-400">
-          <p className="text-lg font-medium">No pending approvals</p>
-          <p className="text-sm mt-1">New approvals will appear here automatically.</p>
+        <div className="text-center py-20">
+          <p className="text-sm font-medium" style={{ color: '#999999' }}>No pending approvals</p>
+          <p className="text-xs mt-1" style={{ color: '#555555' }}>New approvals will appear here automatically.</p>
         </div>
       ) : (
         <div className="grid gap-4">
@@ -95,13 +100,17 @@ export default function ApprovalsPage() {
 
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 px-5 py-3 rounded-xl shadow-lg text-white text-sm font-medium z-50 ${
-            toast.type === 'success' ? 'bg-green-600' : 'bg-red-500'
-          }`}
+          className="fixed bottom-6 right-6 px-5 py-3 rounded text-sm font-medium z-50 tracking-wide"
+          style={{
+            backgroundColor: toast.type === 'success' ? '#1a2a1a' : '#2a1a1a',
+            border: `1px solid ${toast.type === 'success' ? '#4ade80' : '#ef4444'}`,
+            color: toast.type === 'success' ? '#4ade80' : '#ef4444',
+          }}
         >
           {toast.message}
         </div>
       )}
     </div>
+    </AuthGuard>
   );
 }

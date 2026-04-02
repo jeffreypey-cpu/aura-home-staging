@@ -11,7 +11,23 @@
       "Bash(npx create-next-app@14:*)",
       "Bash(git remote:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm install:*)",
+      "Bash(curl -s http://localhost:8000/health)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"Frontend HTTP %{http_code}\" http://localhost:3000)",
+      "Bash(pkill -f \"npm run dev\")",
+      "Bash(pkill -f \"next-server\")",
+      "Bash(fuser -k 3000/tcp)",
+      "Bash(/home/ubuntu/aura-home-staging/.venv/bin/python:*)",
+      "Bash(nohup npm:*)",
+      "Bash(echo \"Frontend PID: $!\")",
+      "Bash(curl -s http://localhost:8000/api/approvals/)",
+      "Bash(curl -s http://localhost:8000/api/extensions/approaching)",
+      "Bash(curl -sv http://localhost:3000/api/intake/)",
+      "Bash(npm run:*)",
+      "Bash(pkill -f next)",
+      "Bash(pkill -f uvicorn)"
     ]
   }
 }

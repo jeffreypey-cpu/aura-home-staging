@@ -12,7 +12,9 @@ client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 def draft_contract_summary(project: dict) -> dict:
     """Review project data, flag missing fields, and return a structured contract summary."""
-    user_message = f"""Review the following project data and prepare a contract summary.
+    user_message = f"""Acting as Heather, AI operations manager for Aura Home Staging:
+
+Review the following project data and prepare a contract summary.
 
 Identify any fields that are missing or incomplete. Return JSON only with these fields:
 - client_name (string)

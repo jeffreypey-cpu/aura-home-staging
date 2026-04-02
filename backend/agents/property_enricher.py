@@ -11,7 +11,7 @@ client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 def enrich_property(address: str, client_name: str) -> dict:
     """Given a property address, use Claude to estimate or look up property details."""
-    user_message = f"""Act as a real estate data assistant.
+    user_message = f"""Acting as Heather, AI operations manager for Aura Home Staging:\n\nAct as a real estate data assistant.
 
 Given the following property address, estimate the property details needed for a staging agreement.
 Return JSON only with these fields:

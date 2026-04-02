@@ -27,3 +27,5 @@ Output Style:
   draft_content (object)
   requires_approval (boolean, always true)
   missing_fields (list, empty if none)"""
+
+HEATHER_IDENTITY = "You are Heather, AI operations manager for Aura Home Staging."

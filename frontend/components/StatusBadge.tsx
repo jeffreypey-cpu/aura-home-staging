@@ -1,21 +1,21 @@
 export default function StatusBadge({ status }: { status: string }) {
   const s = status?.toLowerCase() || '';
 
-  let classes = 'inline-block px-2 py-0.5 rounded-full text-xs font-semibold ';
+  let style: React.CSSProperties = { padding: '2px 10px', borderRadius: 9999, fontSize: 11, fontWeight: 600, display: 'inline-block', letterSpacing: '0.05em' };
 
   if (['draft', 'not_sent', 'none'].includes(s)) {
-    classes += 'bg-gray-100 text-gray-600';
+    style = { ...style, backgroundColor: '#2a2a2a', color: '#999999' };
   } else if (['pending', 'pending_approval'].includes(s)) {
-    classes += 'bg-yellow-100 text-yellow-700';
+    style = { ...style, backgroundColor: '#2a2a2a', color: '#c9a84c' };
   } else if (['approved', 'active'].includes(s)) {
-    classes += 'bg-blue-100 text-blue-700';
+    style = { ...style, backgroundColor: '#1a2a1a', color: '#4ade80' };
   } else if (['sent', 'signed', 'completed'].includes(s)) {
-    classes += 'bg-green-100 text-green-700';
+    style = { ...style, backgroundColor: '#1a2a1a', color: '#4ade80' };
   } else if (['hold', 'rejected'].includes(s)) {
-    classes += 'bg-red-100 text-red-700';
+    style = { ...style, backgroundColor: '#2a1a1a', color: '#ef4444' };
   } else {
-    classes += 'bg-gray-100 text-gray-600';
+    style = { ...style, backgroundColor: '#2a2a2a', color: '#999999' };
   }
 
-  return <span className={classes}>{status}</span>;
+  return <span style={style}>{status}</span>;
 }
