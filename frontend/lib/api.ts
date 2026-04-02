@@ -211,6 +211,7 @@ export interface InventoryItem {
   estimated_value?: number;
   sku?: string;
   notes?: string;
+  image_path?: string;
   created_at: string;
 }
 

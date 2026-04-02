@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timezone
@@ -136,7 +137,7 @@ async def analyze_item(file: UploadFile = File(...), notes: Optional[str] = Form
 async def confirm_item(body: ConfirmItem):
     data = body.model_dump()
     data["quantity_available"] = data["quantity_total"]
-    data.pop("image_path", None)
+    # image_path is kept so it persists for serving via /image/{item_id}
 
     result = supabase.table("inventory").insert(data).execute()
     if not result.data:
@@ -241,6 +242,19 @@ async def return_inventory(assignment_id: str):
         }).eq("id", a["inventory_id"]).execute()
 
     return {"status": "returned", "assignment_id": assignment_id}
+
+
+# ── GET /image/{item_id} ──────────────────────────────────────────────────────
+
+@router.get("/image/{item_id}")
+async def get_inventory_image(item_id: str):
+    result = supabase.table("inventory").select("image_path, item_name").eq("id", item_id).execute()
+    if not result.data:
+        raise HTTPException(status_code=404, detail="Item not found")
+    image_path = result.data[0].get("image_path")
+    if not image_path or not Path(image_path).exists():
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(image_path)
 
 
 # ── GET /{item_id} ────────────────────────────────────────────────────────────

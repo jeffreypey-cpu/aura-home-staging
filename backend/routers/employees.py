@@ -1,4 +1,5 @@
 import os
+import hashlib
 import logging
 from datetime import datetime, timezone
 from fastapi import APIRouter
@@ -18,6 +19,7 @@ class EmployeeCreate(BaseModel):
     role: Optional[str] = None
     email: Optional[str] = None
     pin: Optional[str] = None
+    whatsapp_number: Optional[str] = None
 
 
 class ClockInRequest(BaseModel):
@@ -51,15 +53,19 @@ async def list_employees():
 @router.post("/")
 async def create_employee(body: EmployeeCreate):
     try:
+        pin_hash = hashlib.sha256((body.pin or "").encode()).hexdigest()
         res = supabase.table("employees").insert({
             "name": body.name,
             "phone": body.phone,
             "role": body.role,
             "email": body.email,
-            "pin": body.pin or "",
+            "pin": pin_hash,
+            "whatsapp_number": body.whatsapp_number,
             "created_at": datetime.now(timezone.utc).isoformat(),
         }).execute()
-        return res.data[0] if res.data else {}
+        emp = res.data[0] if res.data else {}
+        emp.pop("pin", None)
+        return emp
     except Exception as e:
         logger.error("create_employee: %s", e)
         return {"error": str(e)}

@@ -45,8 +45,9 @@ export default function EmployeesPage() {
   const [linkLoading, setLinkLoading] = useState(false);
 
   // New employee form
-  const [form, setForm] = useState({ name: '', phone: '', role: '', email: '' });
+  const [form, setForm] = useState({ name: '', phone: '', role: '', email: '', pin: '', whatsapp_number: '' });
   const [saving, setSaving] = useState(false);
+  const [saveMsg, setSaveMsg] = useState('');
 
   useEffect(() => {
     loadData();
@@ -62,6 +63,7 @@ export default function EmployeesPage() {
       const empData = await empRes.json();
       const projData = await projRes.json();
       setEmployees(Array.isArray(empData) ? empData : []);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setProjects(Array.isArray(projData) ? projData.filter((p: any) => p.project_status === 'active' || p.approval_status === 'approved') : []);
     } catch {
       setEmployees([]);
@@ -73,6 +75,7 @@ export default function EmployeesPage() {
   const handleAdd = async () => {
     if (!form.name.trim()) return;
     setSaving(true);
+    setSaveMsg('');
     try {
       const res = await fetch(`${API}/employees/`, {
         method: 'POST',
@@ -82,10 +85,14 @@ export default function EmployeesPage() {
       const data = await res.json();
       if (data.id) {
         setEmployees(prev => [...prev, data]);
-        setForm({ name: '', phone: '', role: '', email: '' });
-        setShowAdd(false);
+        setForm({ name: '', phone: '', role: '', email: '', pin: '', whatsapp_number: '' });
+        setSaveMsg('Employee added successfully');
+        setTimeout(() => { setSaveMsg(''); setShowAdd(false); }, 1500);
+        loadData();
+      } else {
+        setSaveMsg(data.error || 'Failed to create employee');
       }
-    } catch { /* ignore */ } finally {
+    } catch { setSaveMsg('Connection error'); } finally {
       setSaving(false);
     }
   };
@@ -134,17 +141,61 @@ export default function EmployeesPage() {
         {showAdd && (
           <div className="rounded-xl p-5 mb-6" style={{ backgroundColor: '#141414', border: '1px solid #2a2a2a' }}>
             <p className="text-sm font-semibold text-white mb-4">New Employee</p>
+            {saveMsg && (
+              <div className="rounded-lg px-3 py-2 text-xs mb-4" style={{ backgroundColor: saveMsg.includes('success') ? '#1a2a1a' : '#2a1a1a', border: `1px solid ${saveMsg.includes('success') ? '#4ade80' : '#ef4444'}`, color: saveMsg.includes('success') ? '#4ade80' : '#ef4444' }}>
+                {saveMsg}
+              </div>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-              {(['name', 'role', 'phone', 'email'] as const).map(field => (
-                <input
-                  key={field}
-                  value={form[field]}
-                  onChange={e => setForm(f => ({ ...f, [field]: e.target.value }))}
-                  placeholder={field.charAt(0).toUpperCase() + field.slice(1) + (field === 'name' ? ' *' : '')}
-                  className="px-3 py-2 rounded-lg text-sm bg-transparent text-white outline-none"
-                  style={{ border: '1px solid #2a2a2a' }}
-                />
-              ))}
+              <input
+                value={form.name}
+                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                placeholder="Name *"
+                className="px-3 py-2 rounded-lg text-sm bg-transparent text-white outline-none"
+                style={{ border: '1px solid #2a2a2a' }}
+              />
+              <select
+                value={form.role}
+                onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
+                className="px-3 py-2 rounded-lg text-sm bg-transparent text-white outline-none"
+                style={{ border: '1px solid #2a2a2a', backgroundColor: '#0a0a0a' }}
+              >
+                <option value="">Role</option>
+                {['Stager', 'Driver', 'Warehouse', 'Lead Stager', 'Assistant'].map(r => (
+                  <option key={r} value={r.toLowerCase().replace(' ', '_')}>{r}</option>
+                ))}
+              </select>
+              <input
+                value={form.phone}
+                onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                placeholder="Phone"
+                className="px-3 py-2 rounded-lg text-sm bg-transparent text-white outline-none"
+                style={{ border: '1px solid #2a2a2a' }}
+              />
+              <input
+                value={form.email}
+                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                placeholder="Email"
+                type="email"
+                className="px-3 py-2 rounded-lg text-sm bg-transparent text-white outline-none"
+                style={{ border: '1px solid #2a2a2a' }}
+              />
+              <input
+                value={form.whatsapp_number}
+                onChange={e => setForm(f => ({ ...f, whatsapp_number: e.target.value }))}
+                placeholder="WhatsApp number"
+                className="px-3 py-2 rounded-lg text-sm bg-transparent text-white outline-none"
+                style={{ border: '1px solid #2a2a2a' }}
+              />
+              <input
+                value={form.pin}
+                onChange={e => setForm(f => ({ ...f, pin: e.target.value }))}
+                placeholder="PIN (for clock-in)"
+                type="password"
+                maxLength={6}
+                className="px-3 py-2 rounded-lg text-sm bg-transparent text-white outline-none"
+                style={{ border: '1px solid #2a2a2a' }}
+              />
             </div>
             <div className="flex gap-2">
               <button
@@ -153,10 +204,10 @@ export default function EmployeesPage() {
                 className="px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-40 hover:opacity-80 transition-opacity"
                 style={{ backgroundColor: gold, color: '#000' }}
               >
-                {saving ? 'Saving…' : 'Save'}
+                {saving ? 'Saving…' : 'Save Employee'}
               </button>
               <button
-                onClick={() => setShowAdd(false)}
+                onClick={() => { setShowAdd(false); setSaveMsg(''); }}
                 className="px-4 py-2 rounded-lg text-sm hover:opacity-70 transition-opacity"
                 style={{ color: '#666', border: '1px solid #2a2a2a' }}
               >

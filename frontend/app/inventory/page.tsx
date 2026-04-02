@@ -87,15 +87,27 @@ function InventoryCard({ item, onRefresh, onAssign }: { item: ExtItem; onRefresh
         </div>
       </div>
 
-      {/* Placeholder / QR */}
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-lg flex items-center justify-center text-lg font-bold flex-shrink-0" style={{ backgroundColor: '#1a1a1a', color: gold }}>
+      {/* Photo / Placeholder */}
+      {item.image_path ? (
+        <img
+          src={`/api/inventory/image/${item.id}`}
+          alt={item.item_name}
+          className="w-full rounded-lg object-cover"
+          style={{ height: 200 }}
+        />
+      ) : (
+        <div className="w-full rounded-lg flex items-center justify-center text-4xl font-bold" style={{ height: 200, backgroundColor: '#1a1a1a', color: gold }}>
           {initial}
         </div>
-        {item.qr_base64 && (
-          <img src={`data:image/png;base64,${item.qr_base64}`} alt="QR" className="w-12 h-12 rounded" />
-        )}
-      </div>
+      )}
+
+      {/* QR code row */}
+      {item.qr_base64 && (
+        <div className="flex items-center gap-2">
+          <img src={`data:image/png;base64,${item.qr_base64}`} alt="QR" className="w-10 h-10 rounded" />
+          {item.sku && <span className="text-xs font-mono" style={{ color: '#555' }}>{item.sku}</span>}
+        </div>
+      )}
 
       {/* Name + SKU + description */}
       {editing ? (

@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS inventory (
   estimated_value NUMERIC,
   sku TEXT UNIQUE,
   notes TEXT,
+  image_path TEXT,
   created_at TIMESTAMPTZ DEFAULT now()
 );
 

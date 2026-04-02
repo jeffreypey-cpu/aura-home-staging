@@ -13,21 +13,43 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Props) {
   const payload = approval.action_payload || {};
   const emails = payload.emails as unknown[] | undefined;
 
-  const formatted = new Date(approval.created_at).toLocaleString();
+  const formatted = new Date(approval.created_at).toLocaleString([], {
+    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+  });
+
+  const clientName = (
+    (payload.client_name as string) ||
+    (payload.employee_name as string) ||
+    (payload.vendor_name as string) ||
+    ''
+  );
+  const propertyAddress = (
+    (payload.property_address as string) ||
+    (payload.address as string) ||
+    (payload.project_address as string) ||
+    ''
+  );
 
   return (
     <div
       className="rounded-xl p-4 md:p-6"
       style={{ backgroundColor: '#141414', border: '1px solid #2a2a2a', borderLeftWidth: 3, borderLeftColor: '#c9a84c' }}
     >
+      {/* Header */}
       <div className="flex items-start justify-between mb-3 gap-3">
         <div className="min-w-0">
-          <span className="font-semibold text-white capitalize text-sm tracking-wide">
+          {clientName && (
+            <p className="font-semibold text-base leading-tight" style={{ color: '#c9a84c' }}>{clientName}</p>
+          )}
+          {propertyAddress && (
+            <p className="text-sm mt-0.5 truncate" style={{ color: '#888' }}>{propertyAddress}</p>
+          )}
+          <span className="inline-block font-semibold text-white capitalize text-xs tracking-wide mt-1.5 px-2 py-0.5 rounded" style={{ backgroundColor: '#1e1e1e', border: '1px solid #333' }}>
             {approval.action_type?.replace(/_/g, ' ')}
           </span>
-          <p className="text-xs mt-0.5" style={{ color: '#999999' }}>{formatted}</p>
+          <p className="text-xs mt-1" style={{ color: '#666' }}>{formatted}</p>
         </div>
-        <span className="text-xs font-mono flex-shrink-0" style={{ color: '#999999' }}>
+        <span className="text-xs font-mono flex-shrink-0 mt-1" style={{ color: '#555' }}>
           #{approval.id.slice(0, 8)}
         </span>
       </div>
@@ -38,6 +60,16 @@ export default function ApprovalCard({ approval, onApprove, onReject }: Props) {
           style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2a2a', color: '#cccccc' }}
         >
           {approval.approval_message}
+        </pre>
+      )}
+
+      {/* WhatsApp message preview */}
+      {(payload.message as string) && (
+        <pre
+          className="text-xs rounded p-3 whitespace-pre-wrap mb-3 font-sans overflow-x-auto"
+          style={{ backgroundColor: '#0a0a0a', border: '1px solid #2a2a2a', color: '#cccccc' }}
+        >
+          {payload.message as string}
         </pre>
       )}
 
